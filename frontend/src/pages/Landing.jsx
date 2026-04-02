@@ -524,7 +524,7 @@ export default function Landing() {
               </button>
             </div>
 
-            <span className="text-sm text-neutral-600">2024</span>
+            <span className="text-sm text-neutral-600">2026</span>
           </div>
         </div>
       </footer>

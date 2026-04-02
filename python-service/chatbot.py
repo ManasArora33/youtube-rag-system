@@ -1,4 +1,4 @@
-# from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled
+from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_nvidia_ai_endpoints import ChatNVIDIA, NVIDIAEmbeddings
 from langchain_core.prompts import PromptTemplate
@@ -49,18 +49,27 @@ def ingest(videoUrl):
         return {"message": "Already ingested", "suggestedQuestions": suggested_questions}
 
     try:
-        # transcript_list = YouTubeTranscriptApi().fetch(video_id, languages=['en','en-IN'])
-        # transcript = " ".join(chunk['text'] for chunk in transcript_list.to_raw_data())
-        transcript = supadata.transcript(
-            url=videoUrl,
-            lang="en",
-            text=True,
-            mode="auto"
-        )
-        transcript = transcript.content
+        # 1. Try YouTubeTranscriptApi first (Direct & Free)
+        try:
+            yt_api = YoutubeTranscriptApi()
+            transcript_list = yt_api.fetch(video_id, languages=['en', 'en-IN'])
+            transcript = " ".join([item['text'] for item in transcript_list])
+            print(f"[Ingest] Successfully fetched transcript via youtube-transcript-api for {video_id}")
+        except Exception as yt_err:
+            print(f"[Ingest] YouTubeTranscriptApi failed: {yt_err}. Trying Supadata...")
+            # 2. Fallback to Supadata
+            try:
+                result = supadata.transcript(
+                    url=videoUrl,
+                    lang="en",
+                    text=True,
+                    mode="auto"
+                )
+                transcript = result.content
+                print(f"[Ingest] Successfully fetched transcript via Supadata for {video_id}")
+            except SupadataError:
+                return "No transcript available"
 
-    except SupadataError:
-        return "No transcript available"
     except Exception as e:
         print(f"Transcript error: {e}")
         return "No transcript available"
