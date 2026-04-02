@@ -20,6 +20,11 @@ const chatSchema = new mongoose.Schema(
         title: {
             type: String,
             default: "Untitled Chat"
+        },
+        status: {
+            type: String,
+            enum: ['processing', 'ready'],
+            default: 'ready'
         }
     },
     {

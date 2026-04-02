@@ -56,6 +56,7 @@ export default function Chat() {
   const messagesEndRef = useRef(null)
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [chatStatus, setChatStatus] = useState('ready')
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -86,12 +87,36 @@ export default function Chat() {
       fetchMessages(chatId)
       const chat = chats.find(c => c._id === chatId)
       setCurrentChat(chat)
+      if (chat) {
+        setChatStatus(chat.status || 'ready')
+      }
     } else if (!chatId) {
       setMessages([])
       setCurrentChat(null)
       setSuggestedQuestions([])
+      setChatStatus('ready')
     }
   }, [chatId, chats, authLoading, isAuthenticated])
+
+  // Poll for status if processing
+  useEffect(() => {
+    let interval;
+    if (chatId && chatStatus === 'processing') {
+      interval = setInterval(async () => {
+        try {
+          const response = await api.get(`/chats/${chatId}/status`)
+          if (response.data.status === 'ready') {
+            setChatStatus('ready')
+            // Refresh chats list to update the internal status
+            fetchChats()
+          }
+        } catch (err) {
+          console.error('Status poll failed:', err)
+        }
+      }, 3000)
+    }
+    return () => clearInterval(interval)
+  }, [chatId, chatStatus])
 
   const fetchChats = async () => {
     try {
@@ -560,40 +585,52 @@ export default function Chat() {
           )}
           <div ref={messagesEndRef} />
 
-          {/* Input Box */}
-          <div className="flex gap-2 md:gap-3 items-end pt-4 px-4 md:px-0">
-            <div className="flex-1 input-area rounded-xl transition-all">
-              <textarea
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault()
-                    sendMessage()
-                  }
-                }}
-                placeholder={chatId ? 'Ask anything about this video...' : 'Select a chat from the sidebar'}
-                disabled={loading || !chatId}
-                className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-transparent border-0 rounded-xl resize-y focus:outline-none disabled:opacity-50 min-h-[44px] md:min-h-[48px] max-h-[120px] text-white placeholder-neutral-600 text-sm md:text-base"
-                rows={1}
-              />
-            </div>
-            <button
-              onClick={sendMessage}
-              disabled={!inputMessage.trim() || loading}
-              className="btn-send flex-shrink-0 w-10 h-10 md:w-11 md:h-11 rounded-xl flex items-center justify-center transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 hover:scale-105 active:scale-95"
-            >
-              {loading ? (
+          {/* Input Box or Processing Status */}
+          <div className="pt-4 px-4 md:px-0">
+            {chatId && chatStatus === 'processing' ? (
+              <div className="input-area rounded-xl p-4 flex items-center justify-center gap-3 text-neutral-400 italic">
                 <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
-              )}
-            </button>
+                <span>Analyzing video transcript... (This takes a moment during service wake-up)</span>
+              </div>
+            ) : (
+              <div className="flex gap-2 md:gap-3 items-end">
+                <div className="flex-1 input-area rounded-xl transition-all">
+                  <textarea
+                    value={inputMessage}
+                    onChange={(e) => setInputMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault()
+                        sendMessage()
+                      }
+                    }}
+                    placeholder={chatId ? 'Ask anything about this video...' : 'Select a chat from the sidebar'}
+                    disabled={loading || !chatId}
+                    className="w-full px-3 md:px-4 py-2.5 md:py-3 bg-transparent border-0 rounded-xl resize-y focus:outline-none disabled:opacity-50 min-h-[44px] md:min-h-[48px] max-h-[120px] text-white placeholder-neutral-600 text-sm md:text-base"
+                    rows={1}
+                  />
+                </div>
+                <button
+                  onClick={sendMessage}
+                  disabled={!inputMessage.trim() || loading}
+                  className="btn-send flex-shrink-0 w-10 h-10 md:w-11 md:h-11 rounded-xl flex items-center justify-center transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 hover:scale-105 active:scale-95"
+                >
+                  {loading ? (
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
