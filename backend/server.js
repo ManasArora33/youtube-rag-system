@@ -8,6 +8,9 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const app = express();
 
+// Trust Render's proxy (Required for Secure cookies)
+app.set("trust proxy", 1);
+
 // Connect to MongoDB
 connectDB();
 
