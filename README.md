@@ -50,7 +50,7 @@ Ask complex questions about video transcripts and receive detailed, structured i
 - **OpenAI GPT OSS 120B**: High-performance inference via **NVIDIA NIM API**.
 - **`langchain-nvidia-ai-endpoints`**: Specialized library for NVIDIA-hosted high-compute models.
 - **Pinecone**: Low-latency vector database for transcript embeddings.
-- **Flask**: Lightweight microservice for non-blocking ingestion.
+- **FastAPI**: Lightweight microservice for non-blocking ingestion.
 
 ---
 
