@@ -46,10 +46,11 @@ Ask complex questions about video transcripts and receive detailed, structured i
 - **JWT + Cookies**: Secure cross-site authentication with `SameSite: none`.
 
 ### **RAG Engine (Python)**
-- **LangChain**: The core orchestration framework for RAG.
-- **OpenAI GPT-4o**: High-fidelity semantic understanding.
+- **LangChain**: Orchestrating the retrieval and generation pipeline.
+- **OpenAI GPT OSS 120B**: High-performance inference via **NVIDIA NIM API**.
+- **`langchain-nvidia-ai-endpoints`**: Specialized library for NVIDIA-hosted high-compute models.
 - **Pinecone**: Low-latency vector database for transcript embeddings.
-- **Flask**: Lightweight microservice architecture.
+- **Flask**: Lightweight microservice for non-blocking ingestion.
 
 ---
 
@@ -59,12 +60,20 @@ Ask complex questions about video transcripts and receive detailed, structured i
 graph TD
     User((User)) -->|Vite Frontend| FE(React Interface)
     FE -->|Express API| BE(Node.js Server)
-    BE -->|MongoDB| DB[(History DB)]
+    BE -->|MongoDB| DB[(Chat History DB)]
     BE -->|Ingestion Request| PY(Python RAG Service)
-    PY -->|Unstructured| YT(YouTube API)
-    PY -->|Vectorize| PIN[(Pinecone Vector DB)]
-    PY -->|Context| GPT(OpenAI GPT-4o)
-    GPT -->|Response| FE
+    PY -->|Transcript Retrieval| YT(YouTube API)
+    PY -->|Vectorize & Store| PIN[(Pinecone Vector DB)]
+    
+    %% The RAG Loop
+    FE -.->|Question| PY
+    PY -.->|Query| PIN
+    PIN -.->|Context| PY
+    DB -.->|Chat History| PY
+    
+    PY -->|Context + History + Question| NIM{NVIDIA NIM API}
+    NIM -->|GPT OSS 120B| NIM
+    NIM -->|Final Response| FE
 ```
 
 ---
