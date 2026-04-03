@@ -254,8 +254,11 @@ export default function Landing() {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'nav-blur' : 'bg-transparent'
         }`}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="text-sm font-medium tracking-tight">
-            YT Chat AI
+          <Link to="/" className="flex items-center gap-2 group">
+            <img src="/favicon.png" alt="Logo" className="w-6 h-6 object-contain brightness-0 invert" />
+            <span className="text-sm font-semibold tracking-tight group-hover:text-neutral-300 transition-colors">
+              YT Chat AI
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -345,7 +348,7 @@ export default function Landing() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <div className="reveal-text delay-100 visible inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8">
-            <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+            <img src="/favicon.png" alt="" className="w-3.5 h-3.5 brightness-0 invert opacity-60" />
             <span className="text-xs font-medium text-neutral-400">AI-Powered Conversations</span>
           </div>
 
@@ -436,7 +439,7 @@ export default function Landing() {
               },
               {
                 icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWeight={1.5}>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                     <path strokeLinecap="round" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
                   </svg>
                 ),
@@ -509,22 +512,28 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/5 py-10">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <span className="text-sm font-medium">YT Chat AI</span>
-
-            <div className="flex items-center gap-6 text-sm text-neutral-500">
-              <Link to="/" className="hover:text-white transition-colors">Home</Link>
-              <Link to={isAuthenticated ? '/chat' : '/login'} className="hover:text-white transition-colors">
-                {isAuthenticated ? 'Chat' : 'Login'}
+      <footer className="border-t border-white/5 pt-20 pb-10">
+        <div className="max-w-5xl mx-auto px-6 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12 fade-in">
+            <div className="max-w-xs">
+              <Link to="/" className="flex items-center justify-center md:justify-start gap-2 mb-4">
+                <img src="/favicon.png" alt="Logo" className="w-5 h-5 brightness-0 invert" />
+                <span className="text-sm font-bold tracking-tight">YT Chat AI</span>
               </Link>
-              <button onClick={scrollToFeatures} className="hover:text-white transition-colors">
-                Features
-              </button>
+              <p className="text-sm text-neutral-500 leading-relaxed">
+                Empowering video learners with AI-native conversations. Understand any video content instantly.
+              </p>
             </div>
+          </div>
 
-            <span className="text-sm text-neutral-600">2026</span>
+          <div className="flex flex-col md:flex-row items-center justify-between border-t border-white/5 pt-8 gap-4 fade-in">
+            <span className="text-[10px] text-neutral-600 uppercase tracking-[0.2em]">
+              © {new Date().getFullYear()} YT Chat AI. All rights reserved.
+            </span>
+            <div className="flex gap-4">
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+              <span className="text-[10px] text-neutral-600 uppercase tracking-[0.2em]">Systems Operational</span>
+            </div>
           </div>
         </div>
       </footer>

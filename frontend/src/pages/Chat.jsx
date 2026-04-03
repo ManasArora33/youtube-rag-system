@@ -223,8 +223,14 @@ export default function Chat() {
   }
 
   return (
-    <div className="h-screen flex bg-black text-white overflow-hidden">
+    <div className="h-[100dvh] flex bg-black text-white overflow-hidden fixed inset-0">
       <style>{`
+        body { 
+          overflow: hidden !important; 
+          height: 100dvh;
+          position: fixed;
+          width: 100%;
+        }
         .sidebar {
           background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
           border-right: 1px solid rgba(255,255,255,0.08);
