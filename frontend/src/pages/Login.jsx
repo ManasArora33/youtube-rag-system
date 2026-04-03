@@ -7,14 +7,8 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { login, isAuthenticated } = useAuth()
+  const { login } = useAuth()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/chat')
-    }
-  }, [isAuthenticated, navigate])
 
   const handleLogin = async (e) => {
     e.preventDefault()

@@ -9,14 +9,8 @@ export default function Register() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { isAuthenticated } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/chat')
-    }
-  }, [isAuthenticated, navigate])
 
   const handleRegister = async (e) => {
     e.preventDefault()
