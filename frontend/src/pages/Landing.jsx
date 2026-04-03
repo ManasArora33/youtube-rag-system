@@ -255,7 +255,7 @@ export default function Landing() {
         }`}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
-            <img src="/favicon.png" alt="Logo" className="w-6 h-6 object-contain brightness-0 invert" />
+            <img src="/favicon.png" alt="Logo" className="w-6 h-6 object-contain rounded-sm" />
             <span className="text-sm font-semibold tracking-tight group-hover:text-neutral-300 transition-colors">
               YT Chat AI
             </span>
@@ -347,8 +347,8 @@ export default function Landing() {
         <div className="absolute bottom-1/4 right-1/4 glow" />
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <div className="reveal-text delay-100 visible inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8">
-            <img src="/favicon.png" alt="" className="w-3.5 h-3.5 brightness-0 invert opacity-60" />
+          <div className="reveal-text delay-100 visible inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 mb-8 text-neutral-400">
+            <img src="/favicon.png" alt="" className="w-4 h-4 rounded-full" />
             <span className="text-xs font-medium text-neutral-400">AI-Powered Conversations</span>
           </div>
 
@@ -517,7 +517,7 @@ export default function Landing() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12 fade-in">
             <div className="max-w-xs">
               <Link to="/" className="flex items-center justify-center md:justify-start gap-2 mb-4">
-                <img src="/favicon.png" alt="Logo" className="w-5 h-5 brightness-0 invert" />
+                <img src="/favicon.png" alt="Logo" className="w-6 h-6 rounded-sm" />
                 <span className="text-sm font-bold tracking-tight">YT Chat AI</span>
               </Link>
               <p className="text-sm text-neutral-500 leading-relaxed">
