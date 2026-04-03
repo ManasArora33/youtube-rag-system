@@ -223,7 +223,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="h-screen flex bg-black text-white">
+    <div className="h-screen flex bg-black text-white overflow-hidden">
       <style>{`
         .sidebar {
           background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
@@ -238,6 +238,8 @@ export default function Chat() {
             z-index: 50;
             transform: translateX(-100%);
             transition: transform 0.3s ease;
+            background: #0a0a0a !important; /* Solid background on mobile */
+            box-shadow: 20px 0 50px rgba(0,0,0,0.5);
           }
           .sidebar.open {
             transform: translateX(0);
@@ -246,7 +248,8 @@ export default function Chat() {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7); /* Darker overlay */
+            backdrop-filter: blur(4px);
             z-index: 40;
           }
           .sidebar-overlay.open {
@@ -464,7 +467,7 @@ export default function Chat() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <Link to="/" className="text-neutral-400 hover:text-white transition-colors hidden sm:block" title="Home">
+            <Link to="/" className="text-neutral-400 hover:text-white transition-colors flex items-center" title="Home">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>

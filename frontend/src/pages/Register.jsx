@@ -29,7 +29,7 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4 overflow-hidden">
       <style>{`
         .auth-card {
           background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
