@@ -513,10 +513,10 @@ export default function Landing() {
 
       {/* Footer */}
       <footer className="border-t border-white/5 pt-20 pb-10">
-        <div className="max-w-5xl mx-auto px-6 text-center md:text-left">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12 fade-in">
-            <div className="max-w-xs">
-              <Link to="/" className="flex items-center justify-center md:justify-start gap-2 mb-4">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <div className="flex flex-col items-center justify-center gap-8 mb-12 fade-in">
+            <div className="max-w-xs mx-auto">
+              <Link to="/" className="flex items-center justify-center gap-2 mb-4">
                 <img src="/favicon.png" alt="Logo" className="w-6 h-6 rounded-sm" />
                 <span className="text-sm font-bold tracking-tight">YT Chat AI</span>
               </Link>
