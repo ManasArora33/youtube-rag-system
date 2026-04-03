@@ -256,8 +256,22 @@ export default function Chat() {
           background: rgba(255,255,255,0.03);
           border: 1px solid rgba(255,255,255,0.1);
         }
-        .btn-send, .btn-new-chat { background: white; color: black; transition: all 0.2s ease; }
-        .btn-send:hover:not(:disabled), .btn-new-chat:hover:not(:disabled) {
+        .btn-send {
+          background: #fff;
+          color: #000;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-send:hover:not(:disabled) {
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 8px 24px rgba(255,255,255,0.15);
+          background: #f8f8f8;
+        }
+        .btn-send:active:not(:disabled) {
+          transform: translateY(0) scale(0.98);
+        }
+        .btn-new-chat { background: white; color: black; transition: all 0.2s ease; }
+        .btn-new-chat:hover:not(:disabled) {
           transform: translateY(-1px);
           box-shadow: 0 4px 12px rgba(255,255,255,0.15);
         }
@@ -390,7 +404,23 @@ export default function Chat() {
                     rows={1} disabled={!chatId || loading}
                   />
                 </div>
-                <button onClick={sendMessage} disabled={!inputMessage.trim() || loading} className="w-12 h-12 btn-send rounded-2xl flex items-center justify-center disabled:opacity-40"><svg className="w-5 h-5 -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" strokeWidth={2} /></svg></button>
+                <button
+                  onClick={sendMessage}
+                  disabled={!inputMessage.trim() || loading}
+                  className="btn-send flex-shrink-0 w-12 h-10 md:h-12 rounded-xl flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+                  title="Send message"
+                >
+                  {loading ? (
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5 rotate-45 relative -left-[1px] top-[1px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  )}
+                </button>
               </div>
             )}
           </div>

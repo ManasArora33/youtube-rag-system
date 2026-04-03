@@ -422,20 +422,20 @@ export default function Landing() {
               {
                 icon: (
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                    <path strokeLinecap="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    <path strokeLinecap="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.638.319a4 4 0 01-1.833.46h-3.3m-1.428 3.6c-1.021-.063-2.147-.165-3.043-.642-1.603-.853-2.153-2.451-2.153-4.107 0-4.646 6.014-4.5 12-4.5s12-.146 12 4.5c0 1.285-.328 2.327-1.107 3.064" />
                   </svg>
                 ),
-                title: 'Instant Answers',
-                description: 'Get responses in seconds. No waiting, just immediate insights.'
+                title: 'Retrieval Augmented Generation',
+                description: 'Leveraging state-of-the-art RAG architecture for context-aware video analysis.'
               },
               {
                 icon: (
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                    <path strokeLinecap="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    <path strokeLinecap="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" />
                   </svg>
                 ),
-                title: 'Private & Secure',
-                description: 'Your conversations are encrypted. We prioritize your privacy.'
+                title: 'Semantic Intelligence',
+                description: 'Deep understanding of video concepts, beyond just keyword matching.'
               },
               {
                 icon: (
