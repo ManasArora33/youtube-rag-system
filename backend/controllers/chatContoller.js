@@ -5,7 +5,7 @@ const extractVideoId = (url) => {
     try {
         const urlObj = new URL(url);
         if (urlObj.hostname.includes("youtu.be")) {
-            return urlObj.pathname.slice(1);
+            return urlObj.pathname.slice(1).split('?')[0];
         }
         return urlObj.searchParams.get('v');
     } catch (error) {

@@ -25,7 +25,7 @@ def extract_video_id(url):
     try:
         # shortened youtube url (e.g. https://youtu.be/VIDEO_ID)
         if "youtu.be" in url:
-            return url.split("/")[-1]
+            return url.split("/")[-1].split("?")[0]
         # full youtube url (e.g. https://www.youtube.com/watch?v=VIDEO_ID)
         return url.split("?v=")[-1].split("&")[0]
     except IndexError:
@@ -183,7 +183,12 @@ def query(video_id, question, history=""):
     )
 
     def format_docs(docs):
-        return "\n\n".join([doc.page_content for doc in docs])
+        if not docs:
+            print("\n=== WARNING: NO CONTEXT FOUND ===\nRetriever returned 0 documents\n")
+            return "No relevant context found in video."
+        context = "\n\n".join([doc.page_content for doc in docs])
+        print(f"\n=== CONTEXT SENT TO LLM ({len(docs)} chunks) ===\n{context}\n=== END CONTEXT ===\n")
+        return context
 
     parallel_chain = RunnableParallel({
         'context': RunnableLambda(lambda x: x['question']) | retriever | RunnableLambda(format_docs),
@@ -193,7 +198,7 @@ def query(video_id, question, history=""):
 
     parser = StrOutputParser()
     chain = parallel_chain | prompt | model | parser
-
+    
     return chain.invoke({"question": question, "history": history})
 
 # print(ingest("Ih_4C6DJ0EU"))
