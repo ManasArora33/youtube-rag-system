@@ -132,6 +132,11 @@ export default function Chat() {
     }
   }
 
+  const startEditing = (chat) => {
+    setEditingChat(chat._id)
+    setEditTitle(chat.title || 'New Chat')
+  }
+
   const renameChat = async (id) => {
     if (!editTitle.trim()) {
       setEditingChat(null)
