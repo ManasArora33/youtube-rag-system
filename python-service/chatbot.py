@@ -15,7 +15,7 @@ load_dotenv()
 # --- INIT ---
 
 model = ChatNVIDIA(model='openai/gpt-oss-20b')
-embeddings = NVIDIAEmbeddings(model='nvidia/nemotron-3-embed-1b')
+embeddings = NVIDIAEmbeddings(model='nvidia/nemotron-3-embed-1b',dimensions=1024)
 
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 index = pc.Index("video-rag")
