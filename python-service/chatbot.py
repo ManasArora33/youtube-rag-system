@@ -1,21 +1,25 @@
+import os
+from dotenv import load_dotenv
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_nvidia_ai_endpoints import ChatNVIDIA, NVIDIAEmbeddings
+from langchain_nvidia_ai_endpoints import ChatNVIDIA
+from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings  # FIXED IMPORT
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
 from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone
-from dotenv import load_dotenv
-from supadata import Supadata,SupadataError
-import os
+from supadata import Supadata, SupadataError
 
 load_dotenv()
-
 # --- INIT ---
 
 model = ChatNVIDIA(model='openai/gpt-oss-20b')
-embeddings = NVIDIAEmbeddings(model='nvidia/nemotron-3-embed-1b',dimensions=1024)
+# Generates native 1024-dimension vectors matching Pinecone
+embeddings = HuggingFaceInferenceAPIEmbeddings(
+    api_key=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
+    model_name="BAAI/bge-large-en-v1.5"
+)
 
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 index = pc.Index("video-rag")
@@ -51,7 +55,7 @@ def ingest(videoUrl):
     try:
         # 1. Try YouTubeTranscriptApi first (Direct & Free)
         try:
-            yt_api = YoutubeTranscriptApi()
+            yt_api = YouTubeTranscriptApi()
             transcript_list = yt_api.fetch(video_id, languages=['en', 'en-IN'])
             transcript = " ".join([item['text'] for item in transcript_list])
             print(f"[Ingest] Successfully fetched transcript via youtube-transcript-api for {video_id}")
