@@ -9,3 +9,4 @@ langchain-nvidia-ai-endpoints
 langchain-pinecone
 langchain-text-splitters
 youtube-transcript-api
+langchain-community
