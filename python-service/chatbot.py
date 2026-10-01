@@ -12,7 +12,6 @@ from pinecone import Pinecone
 from supadata import Supadata, SupadataError
 
 load_dotenv()
-
 # --- INIT ---
 
 model = ChatNVIDIA(model='openai/gpt-oss-20b')
