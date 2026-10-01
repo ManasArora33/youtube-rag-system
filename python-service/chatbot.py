@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_nvidia_ai_endpoints import ChatNVIDIA
-from langchain_community.embeddings import HuggingFaceInferenceAPIEmbeddings  # FIXED IMPORT
+from langchain_huggingface import HuggingFaceEndpointEmbeddings
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
 from langchain_core.output_parsers import StrOutputParser
@@ -16,9 +16,9 @@ load_dotenv()
 
 model = ChatNVIDIA(model='openai/gpt-oss-20b')
 # Generates native 1024-dimension vectors matching Pinecone
-embeddings = HuggingFaceInferenceAPIEmbeddings(
-    api_key=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
-    model_name="BAAI/bge-large-en-v1.5"
+embeddings = HuggingFaceEndpointEmbeddings(
+    model="BAAI/bge-large-en-v1.5",
+    huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN")
 )
 
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
